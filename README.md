@@ -1,4 +1,4 @@
-H5P Editor Image Hotspot Question
+H5P Editor Image Hotspot Question (note.no)
 ==========
 
 A graphical interface for creating Image Hotspot Question.

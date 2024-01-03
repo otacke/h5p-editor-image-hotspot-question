@@ -1,5 +1,5 @@
 /*global H5P, H5PEditor*/
-H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (function ($) {
+H5PEditor.widgets.imageHotspotQuestionNoteNo = H5PEditor.ImageHotspotQuestionNOTENO = (function ($) {
   /** @constant {string} */
   var RECTANGLE = 'rectangle';
   /** @constant {string} */
@@ -14,13 +14,13 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Initialize image hotspot question editor.
    *
-   * @class H5PEditor.ImageHotspotQuestion
+   * @class H5PEditor.ImageHotspotQuestionNOTENO
    * @param {Object} parent
    * @param {Object} field
    * @param {Object} params
    * @param {Function} setValue
    */
-  function ImageHotspotQuestionEditor(parent, field, params, setValue) {
+  function ImageHotspotQuestionEditorNOTENO(parent, field, params, setValue) {
     // Set default params
     params = $.extend(true, {
       hotspot:[]
@@ -68,29 +68,31 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
      */
     this.taskDescriptionSemantics = [H5P.cloneObject(field.fields[0], true)];
 
+    this.taskDescriptionAudioSemantics = [H5P.cloneObject(field.fields[1], true)];
+
     /**
      * Feedback semantics when no hotspots have been selected.
      * @type {*[]}
      */
-    this.noneSelectedFeedbackSemantics = [H5P.cloneObject(field.fields[2], true)];
+    this.noneSelectedFeedbackSemantics = [H5P.cloneObject(field.fields[3], true)];
 
     /**
      * Feedback semantics for choice to display feedback as popup.
      * @type {*[]}
      */
-    this.showFeedbackAsPopupSemantics = [H5P.cloneObject(field.fields[3], true)];
+    this.showFeedbackAsPopupSemantics = [H5P.cloneObject(field.fields[4], true)];
 
     /**
      * Feedback semantics translations.
      * @type {*[]}
      */
-    this.feedbackTranslations = [H5P.cloneObject(field.fields[4], true)];
+    this.feedbackTranslations = [H5P.cloneObject(field.fields[5], true)];
 
     /**
      * Hotspot settings semantics, used to make the popup on hotspots.
      * @type {Object|Array}
      */
-    this.elementFields = H5P.cloneObject(field.fields[1].field.fields[0].fields, true);
+    this.elementFields = H5P.cloneObject(field.fields[2].field.fields[0].fields, true);
 
     this.initQuestion();
   }
@@ -98,7 +100,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Initiate question, create html and activate editor functionality.
    */
-  ImageHotspotQuestionEditor.prototype.initQuestion = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.initQuestion = function () {
     var self = this;
 
     // Locate image field
@@ -137,7 +139,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Find image from semantics if it has been chosen.
    * @param {function} callback Callback function with image as parameter
    */
-  ImageHotspotQuestionEditor.prototype.findImage = function (callback) {
+  ImageHotspotQuestionEditorNOTENO.prototype.findImage = function (callback) {
     var self = this;
 
     this.parent.ready(function () {
@@ -155,7 +157,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Used to append this widget to a wrapper.
    * @param {H5P.jQuery} $wrapper Container widget will be appended to.
    */
-  ImageHotspotQuestionEditor.prototype.appendTo = function ($wrapper) {
+  ImageHotspotQuestionEditorNOTENO.prototype.appendTo = function ($wrapper) {
 
     this.$editor.appendTo($wrapper);
     this.$editor.prepend(this.noImageSourceMessage(this.parent));
@@ -173,7 +175,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Attach editor.
    */
-  ImageHotspotQuestionEditor.prototype.createEditor = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.createEditor = function () {
     var content =
       '<div class="gui-wrapper">' +
       '  <div class="disabling-overlay hidden"></div>' +
@@ -184,6 +186,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var html =
       '<div class="h5p-image-hotspot-question-editor content">' +
       '  <div class="task-description"></div>' +
+      '  <div class="task-description-audio"></div>' +
          H5PEditor.createFieldMarkup(this.field, content) +
       '  <div class="none-selected-feedback"></div>' +
       '  <div class="show-feedback-as-popup"></div>' +
@@ -215,6 +218,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.$gui = $('.image-hotspot-gui', this.$editor);
 
     var $taskDescription = $('.task-description', this.$editor);
+    var $taskDescriptionAudio = $('.task-description-audio', this.$editor);
     var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
     var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
     var $showFeedbackAsPopup = $('.show-feedback-as-popup', this.$editor);
@@ -231,6 +235,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
+    H5PEditor.processSemanticsChunk(this.taskDescriptionAudioSemantics, this.params, $taskDescriptionAudio, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
     H5PEditor.processSemanticsChunk(this.showFeedbackAsPopupSemantics, this.params, $showFeedbackAsPopup, this);
     H5PEditor.processSemanticsChunk(this.feedbackTranslations, this.params, $feedbackTranslations, this);
@@ -242,7 +247,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} parent
    * @returns {jQuery}
    */
-  ImageHotspotQuestionEditor.prototype.noImageSourceMessage = function (parent) {
+  ImageHotspotQuestionEditorNOTENO.prototype.noImageSourceMessage = function (parent) {
     var $html = $('<div/>', {
       class: 'error-message'
     });
@@ -253,18 +258,18 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     $('<div/>', {
       'class': 'h5p-no-image-title',
-      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImageTitle')
+      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestionNOTENO', 'noImageTitle')
     }).appendTo($html);
 
     $('<div/>', {
       'class': 'h5p-no-image-text',
-      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage')
+      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestionNOTENO', 'noImage')
     }).appendTo($html);
 
     $('<button/>', {
       'class': 'h5p-no-image-button h5p-joubelui-button',
       'type': 'button',
-      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')
+      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestionNOTENO', 'back')
     }).on('click', function () {
       parent.$tabs[0].click();
     }).appendTo($html);
@@ -275,14 +280,14 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Initialize dialog for editing hotspots
    */
-  ImageHotspotQuestionEditor.prototype.createDialog = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.createDialog = function () {
     var self = this;
     var dialog =
       '<div class="h5peditor-fluid-dialog">' +
       '  <div class="h5peditor-fd-inner"></div>' +
       '  <div class="h5peditor-fd-buttons">' +
-      '    <button class="h5peditor-fd-button h5peditor-done">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'done') + '</button>' +
-      '    <button class="h5peditor-fd-button h5peditor-remove">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'remove') + '</button>' +
+      '    <button class="h5peditor-fd-button h5peditor-done">' + H5PEditor.t('H5PEditor.ImageHotspotQuestionNOTENO', 'done') + '</button>' +
+      '    <button class="h5peditor-fd-button h5peditor-remove">' + H5PEditor.t('H5PEditor.ImageHotspotQuestionNOTENO', 'remove') + '</button>' +
       '  </div>' +
       '</div>';
 
@@ -311,7 +316,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Create all hotspots found in params.
    */
-  ImageHotspotQuestionEditor.prototype.createHotspots = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.createHotspots = function () {
     var self = this;
 
     // Add Elements
@@ -324,7 +329,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Creates the toolbar and enables attachment of hotspots.
    */
-  ImageHotspotQuestionEditor.prototype.createToolbar = function ($dnbWrapper) {
+  ImageHotspotQuestionEditorNOTENO.prototype.createToolbar = function ($dnbWrapper) {
     // Create toolbar and attach it
     this.createDragToolbar($dnbWrapper);
   };
@@ -333,7 +338,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Create toolbar with draggable figures, and drag functionality.
    * @param {H5P.jQuery} $wrapper Container for toolbar
    */
-  ImageHotspotQuestionEditor.prototype.createDragToolbar = function ($wrapper) {
+  ImageHotspotQuestionEditorNOTENO.prototype.createDragToolbar = function ($wrapper) {
     var self = this;
 
     if (!!this.toolbar) {
@@ -424,7 +429,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Create buttons from buttonTypes list.
    * @returns {Array} buttonArray An array containing the created buttons
    */
-  ImageHotspotQuestionEditor.prototype.createButtons = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.createButtons = function () {
     var self = this;
     var buttonArray = [];
 
@@ -447,12 +452,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {string} figure A string describing the figure
    * @returns {HotspotFigureButton} Button object for creating a drag n bar button.
    */
-  ImageHotspotQuestionEditor.prototype.createHotspotButton = function (figure) {
+  ImageHotspotQuestionEditorNOTENO.prototype.createHotspotButton = function (figure) {
     var self = this;
 
     return {
       id: figure,
-      title: H5PEditor.t('H5PEditor.ImageHotspotQuestion', figure),
+      title: H5PEditor.t('H5PEditor.ImageHotspotQuestionNOTENO', figure),
       createElement: function () {
         // Push default parameters
         self.params.hotspot.push({
@@ -482,7 +487,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {int} index Index of the element that should be inserted
    * @returns {H5P.jQuery} The created element
    */
-  ImageHotspotQuestionEditor.prototype.insertElement = function (index) {
+  ImageHotspotQuestionEditorNOTENO.prototype.insertElement = function (index) {
     var self = this;
 
     var elementParams = this.params.hotspot[index];
@@ -551,7 +556,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {function} ready
    * @returns {undefined}
    */
-  ImageHotspotQuestionEditor.prototype.ready = function (ready) {
+  ImageHotspotQuestionEditorNOTENO.prototype.ready = function (ready) {
     if (this.passReadies) {
       this.parent.ready(ready);
     }
@@ -568,7 +573,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {number} elementPosY Y-coordinate of where the dialog for editing element should be placed
    * @returns {undefined}
    */
-  ImageHotspotQuestionEditor.prototype.editElement = function (element, elementPosX, elementPosY) {
+  ImageHotspotQuestionEditorNOTENO.prototype.editElement = function (element, elementPosX, elementPosY) {
     var self = this;
 
     this.doneCallback = function () {
@@ -600,7 +605,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Removes the given element.
    * @param {Object} element
    */
-  ImageHotspotQuestionEditor.prototype.removeElement = function (element) {
+  ImageHotspotQuestionEditorNOTENO.prototype.removeElement = function (element) {
     var self = this;
     var id = element.$element.data('id');
 
@@ -625,7 +630,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} params
    * @returns {Object}
    */
-  ImageHotspotQuestionEditor.prototype.generateForm = function (semantics, params) {
+  ImageHotspotQuestionEditorNOTENO.prototype.generateForm = function (semantics, params) {
     var $form = $('<div></div>');
     H5PEditor.processSemanticsChunk(semantics, params, $form, this);
     var $lib = $form.children('.library:first');
@@ -647,7 +652,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Number} dialogPosX X-coordinate for where the dialog will be positioned
    * @param {Number} dialogPosY Y-coordinate for where the dialog will be positioned
    */
-  ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
+  ImageHotspotQuestionEditorNOTENO.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
     var self = this;
 
     // Threshold for placing dialog on side of image
@@ -729,7 +734,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Close hotspot settings dialog.
    */
-  ImageHotspotQuestionEditor.prototype.hideDialog = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.hideDialog = function () {
     this.$currentForm.detach();
     this.$disablingOverlay.addClass('hidden');
     this.dialogOpen = false;
@@ -744,14 +749,14 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    *
    * @returns {Boolean}
    */
-  ImageHotspotQuestionEditor.prototype.validate = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.validate = function () {
     return true;
   };
 
   /**
    * Called when the tab we are on is set as active.
    */
-  ImageHotspotQuestionEditor.prototype.setActive = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.setActive = function () {
     if (!!this.imageField.params) {
       // Remove error text
       this.$editor.removeClass('no-image');
@@ -778,7 +783,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Creates and attaches image to the editor.
    */
-  ImageHotspotQuestionEditor.prototype.populateQuestion = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.populateQuestion = function () {
     // Add image
     this.$image = $('<img>', {
       'class': 'h5p-image-hotspot-question-image',
@@ -791,7 +796,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Resize question
    */
-  ImageHotspotQuestionEditor.prototype.resize = function () {
+  ImageHotspotQuestionEditorNOTENO.prototype.resize = function () {
     if (!this.$image) {
       return;
     }
@@ -814,5 +819,5 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     top: 'height'
   };
 
-  return ImageHotspotQuestionEditor;
+  return ImageHotspotQuestionEditorNOTENO;
 }(H5P.jQuery));

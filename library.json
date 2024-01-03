@@ -1,5 +1,5 @@
 {
-  "title": "Image Hotspot Question Editor",
+  "title": "Image Hotspot Question Editor (note.no)",
   "majorVersion": 1,
   "minorVersion": 8,
   "patchVersion": 12,
@@ -9,7 +9,7 @@
     "majorVersion": 1,
     "minorVersion": 12
   },
-  "machineName": "H5PEditor.ImageHotspotQuestion",
+  "machineName": "H5PEditor.ImageHotspotQuestionNOTENO",
   "preloadedJs": [
     {
       "path": "image-hotspot-question-editor.js"
@@ -32,7 +32,7 @@
       "minorVersion": 2
     },
     {
-      "machineName": "H5P.ImageHotspotQuestion",
+      "machineName": "H5P.ImageHotspotQuestionNOTENO",
       "majorVersion": 1,
       "minorVersion": 8
     }
