@@ -3,6 +3,9 @@ H5P Editor Image Hotspot Question (note.no)
 
 A graphical interface for creating Image Hotspot Question.
 
+## Changes to H5PEditor.ImageHotspotQuestion 1.8
+- Facilitate changes for optional task description audio
+
 ## License
 
 (The MIT License)
